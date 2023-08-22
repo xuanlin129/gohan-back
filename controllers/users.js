@@ -200,7 +200,7 @@ export const getAll = async (req, res) => {
 export const editUser = async (req, res) => {
   try {
     const { email, address, phone, name } = req.body
-    await users.findByIdAndUpdate(req.user._id, { email, address, phone, name, avatar: req.file.path })
+    await users.findByIdAndUpdate(req.user._id, { email, address, phone, name, avatar: req.file?.path })
     res.status(StatusCodes.OK).json({
       success: true,
       message: ''
