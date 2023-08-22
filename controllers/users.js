@@ -205,7 +205,6 @@ export const editUser = async (req, res) => {
       success: true,
       message: ''
     })
-    console.log(req.file.path)
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       success: false,
