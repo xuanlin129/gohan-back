@@ -68,6 +68,10 @@ app.use((_, req, res, next) => {
 app.use(mongoSanitize());
 
 app.get('/ping', (req, res) => {
+  const key = req.query.key;
+  if (!key || key !== process.env.PING_SECRET) {
+    return res.status(403).send('Forbidden');
+  }
   res.status(StatusCodes.OK).json({ success: true, message: 'pong' });
 });
 
