@@ -92,4 +92,17 @@ app.listen(process.env.PORT || 4000, async () => {
   // 防止資料庫被攻擊
   mongoose.set('sanitizeFilter', true);
   console.log('資料庫連線成功');
+
+  // 防止 Render 睡眠
+  if ((process.env.RENDER_EXTERNAL_URL || process.env.SERVER_URL) && process.env.PING_SECRET) {
+    const pingUrl = process.env.RENDER_EXTERNAL_URL || process.env.SERVER_URL;
+    setInterval(async () => {
+      try {
+        await fetch(`${pingUrl}/ping?key=${process.env.PING_SECRET}`);
+        console.log('保持喚醒 ping 發送成功');
+      } catch (error) {
+        console.log('保持喚醒 ping 發送失敗', error.message);
+      }
+    }, 1000 * 60 * 14); // 每 14 分鐘發送一次
+  }
 });
